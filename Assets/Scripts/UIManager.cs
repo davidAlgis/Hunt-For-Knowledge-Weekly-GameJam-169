@@ -16,14 +16,21 @@ public class UIManager : MonoBehaviour
     private GameObject m_gridLayout;
     private List<Dropdown.OptionData> m_defaultTranslationDropDown = new List<Dropdown.OptionData>();
     private LayerMask m_layerMaskSkeleton;
+    private LayerMask m_layerMaskKey;
     [SerializeField]
     private GameObject m_logoDialog;
+    [SerializeField]
+    private GameObject m_logoHand;
     [SerializeField]
     private GameObject m_windowsDialog;
     [SerializeField]
     private GameObject m_cursorGO;
     [SerializeField]
     private Text m_windowsDialogText;
+    [SerializeField]
+    private GameObject m_gridKeys;
+    [SerializeField]
+    private GameObject m_keyGO;
     #region getter
     public static UIManager Instance
     {
@@ -66,6 +73,7 @@ public class UIManager : MonoBehaviour
         m_mainPanel.SetActive(false);
 
         m_layerMaskSkeleton = LayerMask.GetMask("Skeleton");
+        m_layerMaskKey = LayerMask.GetMask("Keys");
     }
 
     void Update()
@@ -84,8 +92,6 @@ public class UIManager : MonoBehaviour
 
         RaycastHit rayHit;
 
-
-
         if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out rayHit, 10.0f, m_layerMaskSkeleton))
         {
             if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
@@ -99,7 +105,21 @@ public class UIManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
             plotDialogUI(false, null);
-        
+
+        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out rayHit, 10.0f, m_layerMaskKey))
+        {
+            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+            {
+
+                plotLogoKeysUI();
+                Destroy(rayHit.collider.gameObject);
+            }
+            else
+                plotLogoHandUI(true);
+
+        }
+        else
+            plotLogoHandUI(false);
 
     }
 
@@ -116,7 +136,6 @@ public class UIManager : MonoBehaviour
 
     private void plotDialogUI(bool enableDisable, Skeleton skeleton)
     {
-        print("plot dialog UI");
         m_windowsDialog.SetActive(enableDisable);
 
         if (enableDisable)
@@ -131,8 +150,22 @@ public class UIManager : MonoBehaviour
 
     private void plotLogoDialogUI(bool enableDisable)
     {
+        print("plot logo dialog " + enableDisable);
         m_logoDialog.SetActive(enableDisable);
         m_cursorGO.SetActive(!enableDisable);
+    }
+
+    private void plotLogoHandUI(bool enableDisable)
+    {
+        m_logoHand.SetActive(enableDisable);
+        m_cursorGO.SetActive(!enableDisable);
+    }
+
+    private void plotLogoKeysUI()
+    {
+        GameObject tempGo = (GameObject)Instantiate(m_keyGO, m_gridKeys.transform);
+        tempGo.SetActive(true);
+
     }
 
 }

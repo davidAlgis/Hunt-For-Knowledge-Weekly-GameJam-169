@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Jump : MonoBehaviour
 {
@@ -28,5 +29,21 @@ public class Jump : MonoBehaviour
             rigidbody.AddForce(Vector3.up * 100 * jumpStrength);
             Jumped?.Invoke();
         }
+
+        if (Input.GetButtonDown("Jump") && GameManager.Instance.IsUnderwater)
+        {
+
+            StartCoroutine(coroutineGravity());
+            rigidbody.AddForce(Vector3.up * 50 * jumpStrength);
+            Jumped?.Invoke();
+        }
+
+    }
+
+    IEnumerator coroutineGravity()
+    {
+        rigidbody.useGravity = false;
+        yield return new WaitForSeconds(0.5f);
+        rigidbody.useGravity = true;
     }
 }

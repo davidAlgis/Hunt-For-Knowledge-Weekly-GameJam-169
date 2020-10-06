@@ -8,7 +8,6 @@ public class Underwater : MonoBehaviour
     private float m_waterHeight;
     [SerializeField]
     private GameObject m_waterGO;
-    private bool m_isUnderwater;
     private Color m_normalColor;
     private Color m_underwaterColor;
 
@@ -22,14 +21,13 @@ public class Underwater : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if ((transform.position.y < m_waterHeight) != m_isUnderwater)
-        {
-            print("is under water");
-            m_isUnderwater = transform.position.y < m_waterHeight;
+        if ((transform.position.y < m_waterHeight) != GameManager.Instance.IsUnderwater)
+        { 
+            GameManager.Instance.IsUnderwater = transform.position.y < m_waterHeight;
 
-            if (m_isUnderwater) 
+            if (GameManager.Instance.IsUnderwater) 
                 SetUnderwater();
-            if (!m_isUnderwater) 
+            if (!GameManager.Instance.IsUnderwater) 
                 SetNormal();
         }
     }

@@ -14,6 +14,11 @@ public class GameManager : MonoBehaviour
     private FirstPersonLook m_firstPersonLook;
     [SerializeField]
     private int m_nbrOfSucess = 0;
+    private bool m_isUnderwater = false;
+    [SerializeField]
+    private Rigidbody m_rbPlayer;
+
+    private uint m_nbrOfKeys = 0;
 
     #region getter
     public static GameManager Instance
@@ -30,27 +35,13 @@ public class GameManager : MonoBehaviour
 
     public List<EvaristoisTranslation> TranslationTable { get => m_translationTable; set => m_translationTable = value; }
     public FirstPersonLook FirstPersonLook { get => m_firstPersonLook; set => m_firstPersonLook = value; }
+    public uint NbrOfKeys { get => m_nbrOfKeys; set => m_nbrOfKeys = value; }
+    public bool IsUnderwater { get => m_isUnderwater; set => m_isUnderwater = value; }
+    public Rigidbody RbPlayer { get => m_rbPlayer; set => m_rbPlayer = value; }
 
     #endregion
 
 
-
-    private void Awake()
-    {
-
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-       
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     public void valueChangeInDropDown(EvaristoisUI ev)
     {
@@ -79,6 +70,19 @@ public class GameManager : MonoBehaviour
             }
             m_nbrOfSucess = 0;
         }
+    }
+
+    public void startCoroutineGeyser(GameObject geyser)
+    {
+        StartCoroutine(blockGeyser(geyser));
+    }
+
+    IEnumerator blockGeyser(GameObject geyser)
+    {
+        while (m_rbPlayer.transform.position.y <= geyser.transform.position.y)
+            yield return new WaitForSeconds(0.1f);
+
+        geyser.SetActive(true);
     }
 }
 

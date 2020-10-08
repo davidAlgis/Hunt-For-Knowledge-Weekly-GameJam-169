@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameObject m_templateButtonEvaristois;
     [SerializeField]
+    private GameObject m_templateOptional;
+    [SerializeField]
     private GameObject m_gridLayout;
     private List<Dropdown.OptionData> m_defaultTranslationDropDown = new List<Dropdown.OptionData>();
     private LayerMask m_layerMaskSkeleton;
@@ -40,6 +42,7 @@ public class UIManager : MonoBehaviour
     private UnityEngine.UI.Button m_quitButton;
     [SerializeField]
     private GameObject m_menuQuit;
+    
     #region getter
     public static UIManager Instance
     {
@@ -67,19 +70,29 @@ public class UIManager : MonoBehaviour
 
             m_defaultTranslationDropDown.Add(temp);
         }
-        //m_defaultTranslationDropDown.Sort();
-        shuffleDropDownTranslation();
+        m_defaultTranslationDropDown.Sort(delegate(Dropdown.OptionData x, Dropdown.OptionData y) { return x.text.CompareTo(y.text); });
+
 
         foreach (var word in GameManager.Instance.TranslationTable)
         {
-            GameObject goTemp = (GameObject)Instantiate(m_templateButtonEvaristois, m_gridLayout.transform);
-            //goTemp.transform.SetParent(m_gridLayout.transform);
+            
+             GameObject goTemp = (GameObject)Instantiate(m_templateButtonEvaristois, m_gridLayout.transform);
+
+
             EvaristoisUI ev = goTemp.GetComponent<EvaristoisUI>();
             word.ev = ev;
             ev.setTranslation(word);
             ev.setEvaristois(word.evaristois);
             ev.setTranslationDropdown(m_defaultTranslationDropDown);
-            
+            if (ev.getEvaristois() == "q")
+            {
+
+                GameObject goTemp2 = (GameObject)Instantiate(m_templateOptional, m_gridLayout.transform);
+                RectTransform rt = goTemp2.GetComponent<RectTransform>();
+                rt.sizeDelta = new Vector2(300, 50);
+            }
+
+
         }
         m_mainPanel.SetActive(false);
 
@@ -146,23 +159,6 @@ public class UIManager : MonoBehaviour
         }
 
 
-    }
-
-    private void shuffleDropDownTranslation()
-    {
-        List<Dropdown.OptionData> listCopy = new List<Dropdown.OptionData>();
-        foreach (Dropdown.OptionData item in m_defaultTranslationDropDown)
-            listCopy.Add(item);
-        m_defaultTranslationDropDown.Clear();
-        foreach (Dropdown.OptionData item in listCopy.OrderBy(item => item))
-            m_defaultTranslationDropDown.Add(item);
-        /*for (int i = 0; i < m_defaultTranslationDropDown.Count; i++)
-        {
-            Dropdown.OptionData temp = m_defaultTranslationDropDown[i];
-            int randomIndex = Random.Range(i, m_defaultTranslationDropDown.Count);
-            m_defaultTranslationDropDown[i] = m_defaultTranslationDropDown[randomIndex];
-            m_defaultTranslationDropDown[randomIndex] = temp;
-        }*/
     }
 
     private void plotDialogUI(bool enableDisable, Skeleton skeleton)

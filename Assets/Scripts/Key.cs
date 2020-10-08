@@ -33,6 +33,7 @@ public class Key : MonoBehaviour
 
     private void launchExplosion()
     {
+        GameManager.Instance.startCoroutineLaunchGeyserExplosion();
         GameManager.Instance.RbPlayer.AddForce(Vector3.up * 2000);
         GameManager.Instance.startCoroutineGeyser(m_colliderGeyser);
         Destroy(gameObject);

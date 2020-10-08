@@ -17,7 +17,8 @@ public class GameManager : MonoBehaviour
     private bool m_isUnderwater = false;
     [SerializeField]
     private Rigidbody m_rbPlayer;
-
+    [SerializeField]
+    private GameObject m_geyserGO;
     private uint m_nbrOfKeys = 0;
 
     #region getter
@@ -42,6 +43,12 @@ public class GameManager : MonoBehaviour
     #endregion
 
 
+    public void Start()
+    {
+        StartCoroutine(handleExplosionGeyser());
+        ParticleSystem particleGeyser = m_geyserGO.GetComponent<ParticleSystem>();
+        particleGeyser.Stop();
+    }
 
     public void valueChangeInDropDown(EvaristoisUI ev)
     {
@@ -84,6 +91,34 @@ public class GameManager : MonoBehaviour
 
         geyser.SetActive(true);
     }
+
+    IEnumerator handleExplosionGeyser()
+    {
+        for (; ;)
+        {
+            if (Vector3.Distance(RbPlayer.transform.position, m_geyserGO.transform.position) > 50)
+                StartCoroutine(launchExplosionGeyser());
+            
+            yield return new WaitForSeconds(60.0f);
+
+        }
+    }
+
+    public void startCoroutineLaunchGeyserExplosion()
+    {
+        StartCoroutine(launchExplosionGeyser());
+    }
+
+    private IEnumerator launchExplosionGeyser()
+    {
+        ParticleSystem particleGeyser = m_geyserGO.GetComponent<ParticleSystem>();
+        particleGeyser.Play();
+        AudioSource audioSource = m_geyserGO.GetComponent<AudioSource>();
+        audioSource.Play();
+        yield return new WaitForSeconds(5.0f);
+        audioSource.Stop();
+        particleGeyser.Stop();
+    }
 }
 
 [System.Serializable]
@@ -91,6 +126,8 @@ public class EvaristoisTranslation
 {
     public string evaristois;
     public string translation;
+    [HideInInspector]
     public bool sucess;
+    [HideInInspector]
     public EvaristoisUI ev;
 }

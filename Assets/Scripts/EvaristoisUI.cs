@@ -60,6 +60,12 @@ public class EvaristoisUI : MonoBehaviour
         else
             return;
     }
+
+    public void setEvaristoisGreen()
+    {
+        m_text.color = Color.green;
+        m_dropdown.captionText.color = Color.green;
+    }
     
     public EvaristoisTranslation getTranslation()
     {

@@ -42,6 +42,8 @@ public class UIManager : MonoBehaviour
     private UnityEngine.UI.Button m_quitButton;
     [SerializeField]
     private GameObject m_menuQuit;
+    [SerializeField]
+    private GameObject m_creditGO;
     
     #region getter
     public static UIManager Instance
@@ -102,7 +104,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.RbPlayer.gameObject.SetActive(false);
+        //GameManager.Instance.RbPlayer.gameObject.SetActive(false);
         UnityEngine.Cursor.lockState = CursorLockMode.None;
     }
 
@@ -142,20 +144,32 @@ public class UIManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if(m_tutorialGO.activeSelf == false)
+            if (m_tutorialGO.activeSelf == false)
             {
-
-                m_menuQuit.SetActive(!m_menuQuit.activeSelf);
-                if (!m_menuQuit.activeSelf)
-                    UnityEngine.Cursor.lockState = CursorLockMode.None;
+                if(m_windowsDialog.activeSelf)
+                    plotDialogUI(false, null);
                 else
-                    UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                {
+
+
+                    m_menuQuit.SetActive(!m_menuQuit.activeSelf);
+
+
+                }
+
             }
             
 
             unplotTutorial();
-            //plotDialogUI(false, null);
 
+            if (m_menuQuit.activeSelf)
+            {
+                UnityEngine.Cursor.lockState = CursorLockMode.None;
+            }
+            else
+            {
+                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+            }
         }
 
 
@@ -207,6 +221,11 @@ public class UIManager : MonoBehaviour
     void doExitGame()
     {
         Application.Quit();
+    }
+
+    public void plotCredit()
+    {
+        m_creditGO.SetActive(true);
     }
 
 }

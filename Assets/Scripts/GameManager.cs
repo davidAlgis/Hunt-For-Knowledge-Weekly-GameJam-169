@@ -20,6 +20,8 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private GameObject m_geyserGO;
     private uint m_nbrOfKeys = 0;
+    [SerializeField]
+    private AudioSource m_soundCheck;
 
     #region getter
     public static GameManager Instance
@@ -72,7 +74,12 @@ public class GameManager : MonoBehaviour
             foreach(var word in m_translationTable)
             {
                 if(word.sucess)
+                {
+                    word.ev.setEvaristoisGreen();
                     word.ev.disableInteractionDropdown();
+                    m_soundCheck.Play();
+
+                }
                 
             }
             m_nbrOfSucess = 0;

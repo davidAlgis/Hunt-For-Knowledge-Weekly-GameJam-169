@@ -1,4 +1,4 @@
-# Weekly-Game-Jam-Knowledge-hunt
+# Knowledge for Hunt
 
 Hunt for knowledge est un jeu d'aventure à la première personne. 
 Le personnage incarné par le joueur part à la recherche d'un trésor caché d'une ancienne civilisation. 

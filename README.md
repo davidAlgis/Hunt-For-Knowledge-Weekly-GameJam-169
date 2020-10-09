@@ -7,4 +7,4 @@ Ce jeu a été créé en 6 jours dans le contexte de la [Weekly Game Jam - Week 
 
 # Détails technique
 
-Ce jeu a été développé sur le moteur unity et à l'aide de blender. Tout le code a été programmé <<from scratch>> à l'exception de gestion des mouvements du personnages et de la caméra, qui viennent du package standard asset de unity.
+Ce jeu a été développé sur le moteur unity et à l'aide de blender. Tout le code a été programmé "from scratch" à l'exception de gestion des mouvements du personnages et de la caméra, qui viennent du package standard asset de unity.

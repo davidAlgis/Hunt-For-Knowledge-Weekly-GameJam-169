@@ -44,6 +44,8 @@ public class UIManager : MonoBehaviour
     private GameObject m_menuQuit;
     [SerializeField]
     private GameObject m_creditGO;
+    [SerializeField]
+    private Dropdown m_keyboard;
     
     #region getter
     public static UIManager Instance
@@ -100,6 +102,7 @@ public class UIManager : MonoBehaviour
 
         m_layerMaskSkeleton = LayerMask.GetMask("Skeleton");
         m_layerMaskKey = LayerMask.GetMask("Keys");
+        enableDisableMouse();
     }
 
     private void Start()
@@ -117,9 +120,9 @@ public class UIManager : MonoBehaviour
                 GameManager.Instance.FirstPersonLook.enabled = m_mainPanel.activeSelf;
 
                 if (!m_mainPanel.activeSelf)
-                    UnityEngine.Cursor.lockState = CursorLockMode.None;
+                    enableDisableMouse();
                 else
-                    UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+                    enableDisableMouse(false);
 
                 m_mainPanel.SetActive(!m_mainPanel.activeSelf);
             }
@@ -146,16 +149,20 @@ public class UIManager : MonoBehaviour
         {
             if (m_tutorialGO.activeSelf == false)
             {
-                if(m_windowsDialog.activeSelf)
-                    plotDialogUI(false, null);
-                else
+                if (m_windowsDialog.activeSelf)
                 {
 
-
-                    m_menuQuit.SetActive(!m_menuQuit.activeSelf);
-
-
+                    plotDialogUI(false, null);
                 }
+                else if(m_mainPanel.activeSelf)
+                {
+
+                    GameManager.Instance.FirstPersonLook.enabled = true;
+                    m_mainPanel.SetActive(false);
+                    enableDisableMouse(false);
+                }
+                else
+                    plotMenu();
 
             }
             
@@ -163,13 +170,9 @@ public class UIManager : MonoBehaviour
             unplotTutorial();
 
             if (m_menuQuit.activeSelf)
-            {
-                UnityEngine.Cursor.lockState = CursorLockMode.None;
-            }
+                enableDisableMouse();
             else
-            {
-                UnityEngine.Cursor.lockState = CursorLockMode.Locked;
-            }
+                enableDisableMouse(false);
         }
 
 
@@ -180,10 +183,8 @@ public class UIManager : MonoBehaviour
         m_windowsDialog.SetActive(enableDisable);
 
         if (enableDisable)
-        {
-
             plotLogoDialogUI(false);
-        }
+        
             
         
 
@@ -215,10 +216,10 @@ public class UIManager : MonoBehaviour
     {
         m_tutorialGO.SetActive(false);
         GameManager.Instance.RbPlayer.gameObject.SetActive(true);
-        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        enableDisableMouse(false);
     }
 
-    void doExitGame()
+    public void doExitGame()
     {
         Application.Quit();
     }
@@ -228,4 +229,27 @@ public class UIManager : MonoBehaviour
         m_creditGO.SetActive(true);
     }
 
+    public void plotMenu()
+    {
+        m_menuQuit.SetActive(!m_menuQuit.activeSelf);
+    }
+
+    public void changeKeyBoard()
+    {
+        //TODO change keyboard
+    }
+
+    public void enableDisableMouse(bool enable = true)
+    {
+        if(enable)
+        {
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
+            UnityEngine.Cursor.visible = true;
+        }
+        else
+        {
+            UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+            UnityEngine.Cursor.visible = false;
+        }
+    }
 }

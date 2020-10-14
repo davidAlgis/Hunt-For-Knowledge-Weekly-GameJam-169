@@ -1,6 +1,6 @@
 # Knowledge for Hunt
 
-Hunt for knowledge est un jeu d'aventure à la première personne disponible gratuitement à [cette adresse](https://davidalgis.itch.io/hunt-for-knowledge).. 
+Hunt for knowledge est un jeu d'aventure à la première personne disponible gratuitement à [cette adresse](https://davidalgis.itch.io/hunt-for-knowledge).
 Le personnage incarné par le joueur part à la recherche d'un trésor caché d'une ancienne civilisation. 
 Pour découvrir sa cachette, le joueur doit réussir à traduire le langage de cette civilisation.
 Ce jeu a été créé en 6 jours dans le contexte de la [Weekly Game Jam - Week 169](http://www.weeklygamejam.com/)
